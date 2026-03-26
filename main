@@ -1,0 +1,88 @@
+import time
+import  random
+#List:
+wordsfruit=['apple','banana','lychees','watermelon','orange']
+wordsmod=['python','networking','topology','ram','bandwidth']
+wordsan=['cougar','fox','hyena','lion','bison']
+ 
+ 
+#Game mechanic
+print('Welcome to game guesser!\n Definitely 100 percent original!')
+name=input('Who is the warrior who will step up and make a guess? (enter name):\n')
+print(f'{name}, Please read the following instructions')
+print(f"- {name} will guess one letter at a time.")
+print("- After 5 letter guesses, you can guess the full word.")
+print("- You have 3 chances to guess the full word.\n")
+#User choice
+while True:
+    try:
+        choice=int(input('Do you wish to guess: 1.Fruits, 2.Module words or 3.Wild animals (choose number between 1-3):\n'))
+        if choice not in [1,2,3]:
+            print('Please choose between 1,2 and 3')
+        else:
+            print(f'You have selected {choice}')
+            break
+    except:
+        print('Please read instructions carefully')
+#OUTCOMES BASED ON CHOICE
+if choice==1:
+    word= random.choice(wordsfruit)
+    print(f'The word has {len(word)} letters.\n')
+elif choice==2:
+    word=random.choice(wordsmod)
+    print(f'The word has {len(word)} letters.\n')
+elif choice==3:
+    word=random.choice(wordsan)
+    print(f'The word has {len(word)} letters.\n')
+#Game play
+display=['_']*len(word)
+guessed_letters=[]
+letter_trys=0
+loop=0#how many attempts you get
+start_time=time.time()
+#Guess game loop
+ 
+while letter_trys<5:
+    print('Word:',''.join(display))
+    guess=input('enter a letter:\n').lower()
+    #Incase rules are not followed:
+    if len(guess)!=1 or not guess.isalpha():
+        print('Please enter a singular valid letter')
+        continue
+    if guess in guessed_letters:
+        print("You already guessed that letter")
+        continue
+    #Adding to the list
+    guessed_letters.append(guess)
+    letter_trys=letter_trys+1
+    if guess in word:
+        place_of_word=[i for i, letter in enumerate(word) if letter==guess]
+ 
+        for i in place_of_word :
+            display[i]=guess
+        print(f"That's one more closer than before\nLetter found in this position:{place_of_word}\n")
+    else:
+        print('Not found')
+#encountering a smarty pants
+    if '_' not in display:
+        print(f'{name}, You did it earlier than i intended!\n Your really smart!')
+        break
+#Final guess:
+while '_' in display and loop<3:
+    guess_word=input('Guess the word:\n').lower()
+    loop=loop+1
+ 
+    if guess_word==word:
+        print(f'Congratulations {name}, You did it! You won!')
+        break
+    else:
+        print(f'Almost there {name}, give it another go.')
+ 
+else:
+    if '_' in display:
+        print(f"{name}, you have been defeated but don't give up. Try again!")
+ 
+#Measuring time taken:
+end_time=time.time()
+print(f"{name}, it took you a total of: {round(end_time-start_time,2)} seconds to finish the game!")
+print('The entire game was made from:\nTHE BLUE MARBLES!!\nAnd a lil help from the internet.')
